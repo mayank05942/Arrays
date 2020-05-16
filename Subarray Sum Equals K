@@ -1,0 +1,34 @@
+Prob: https://leetcode.com/problems/subarray-sum-equals-k/
+____________________________________________________________________________________________________________________________
+
+Explanation: https://www.youtube.com/watch?v=MHocw0bP1rA
+
+Note: if we made count += d[item-k] to handle the cases when all numbers are 0
+ex: [0,0,0,0,0], we would have done count += 1 half of the test cases would have passed but these type of cases would have failed.
+
+________________________________________________________________________________________________________________________________
+Code:
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        
+        
+        d = {0:1}    # it is for those cases where (sum - k) == 0, which are valid subarrays but need to get counted. 
+                      # e.g. if k = 7 and sum = 7
+        
+        add = 0
+        cs = []
+        for num in nums:   # using cummulative sum we can find the subarray sum just by subtracting two numbers
+            add += num
+            cs.append(add)
+        count = 0    
+        for item in cs:
+            if (item-k) in d:        # by finding (item-k) in d we are checking if there exits a lower bound(x2) for which (x1-x2==k) 
+                count += d[item-k]      # where x1 = item ( current iteration variable)
+            
+            if item not in d:
+                d[item] = 0
+            d[item] += 1
+        return count
+            
+        
