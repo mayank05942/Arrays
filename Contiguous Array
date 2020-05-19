@@ -1,0 +1,40 @@
+Prob: https://leetcode.com/problems/contiguous-array/
+
+____________________________________________________________________________________________________________________________________
+
+Explanation:  https://leetcode.com/problems/contiguous-array/discuss/99655/Python-O(n)-Solution-with-Visual-Explanation
+______________________________________________________________________________________________________________________________________
+
+Code:
+
+class Solution:
+    def findMaxLength(self, arr: List[int]) -> int:
+        if len(arr) == 0: return 0
+        if len(arr) == 1: return 0
+        
+        d ={}         # will store count and index
+        count = 0
+        ans = 0       # will store the length of subarray in which we have equal number of 0's and 1's
+        
+        for i in range(len(arr)):
+        
+            if arr[i] == 0:   # if we encounter 0 make count -1 and if we encounter 1 make count +1
+                count -= 1    # hence when we will have equal number of zeros and ones -> count will be equal to 0
+                              # and that will be one such subarray.
+                
+            if arr[i] == 1:
+                count += 1
+                
+            if count == 0:    # when count is 0 we got one such answer
+                ans = i + 1
+                
+            if count not in d:   
+                d[count] = i     
+                
+            if count in d:                        # from graph if we encounter prev count value again then again there will be
+                ans = max(ans,i-d[count])         # equal number of 0s and 1s
+
+        return ans
+
+       
+
