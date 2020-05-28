@@ -1,0 +1,59 @@
+Prob: https://leetcode.com/problems/prison-cells-after-n-days/
+_____________________________________________________________________________________________________________________________________
+
+Explanation:
+
+When N will be very large then we will require a lot of space since we are creating array everything this will give TLE
+
+Solution: Since array is binary hence there will be a value of k after which the pattern will start to repeat we just have to 
+find that k using hashmap and change N = N % k.
+
+________________________________________________________________________________________________________________________________________
+
+Solution:
+
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], N: int) -> List[int]:
+        
+        # Note: 1st and last prison cell will always be 0 as they don't have neighbours
+        
+        
+        def state(arr):                   # will change the state of the cell each day based upon the result of prev cell
+            lis = [0]* len(arr)
+            for i in range(1,len(arr)-1):
+                if arr[i-1] == arr[i+1]:
+                    lis[i] = 1
+                else:
+                    lis[i] = 0
+            return lis
+        
+        d = []   # for hashmap
+        k = 0   # value after which it will be repeated
+        flag = False
+        for i in range(N):     # Question is what to store in hash map
+            x = state(cells)   # do not store original cell as it will never come again as cells[0] and cells[1] cannot be 1 again
+            #print(x)
+            i = x
+            i = str(i)
+            if i not in d:
+                d.append(i)
+                k += 1
+            else:
+                flag = True
+                break
+            cells = x
+        
+        if flag:
+            N = N % k   # changing the value of N
+            for i in range(N):
+                cells = state(cells)
+        return cells
+    
+            
+        
+       
+           
+       
+        
+                    
+        
