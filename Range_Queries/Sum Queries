@@ -1,0 +1,46 @@
+In a range query , our task is to calculate a value based on a subarray of an array. Typical range queries are:
+
+• sum q ( a,b ): calculate the sum of values in range [ a,b ]
+• min q ( a,b ): find the minimum value in range [ a,b ]
+• max q ( a,b ): find the maximum value in range [ a,b ]
+
+______________________________________________________________________________________________________________________________________
+
+Sum queries in static array using prefix sum:
+
+Prob: https://leetcode.com/problems/range-sum-query-immutable/
+____________________________________________
+
+We can easily process sum queries on a static array by constructing a prefix sum array . Each value in the prefix sum array equals
+the sum of values in the original array up to that position, i.e., the value at position k is sum q (0 ,k ). The prefix sum array can
+be constructed in O ( n ) time.
+
+Since the prefix sum array contains all values of sum q (0 ,k ), we can calculate any
+value of sum q ( a,b ) in O (1) time as follows:
+
+sum q ( a,b ) = sum q (0 ,b ) − sum q (0 ,a − 1)
+
+Code:
+------
+
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.prefix_sum = []
+        add = 0
+        for i in range(len(self.nums)):
+            add += nums[i]
+            self.prefix_sum.append(add)
+        
+        
+
+    def sumRange(self, i: int, j: int) -> int:
+        #print(self.prefix_sum)
+        if  i == 0:                         # when i is 0 then [i-1] will be equal to -1
+            return self.prefix_sum[j]
+        else:
+            return self.prefix_sum[j] - self.prefix_sum[i-1]
+            
+____________________________________________________________________________________________________________________________________
+        
