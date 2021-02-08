@@ -1,0 +1,21 @@
+Prob: https://practice.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1
+
+Code:
+
+class Solution:
+    def maximumSumSubarray (self,K,Arr,N):
+        global_sum = 0
+        local_sum = 0
+        i,j = 0,0
+        while j < len(Arr):
+            local_sum += Arr[j]
+            
+            if (j-i+1) < K:
+                j += 1
+            elif (j-i+1) == K:
+                global_sum = max(local_sum,global_sum)
+                
+                local_sum = local_sum - Arr[i]
+                i += 1
+                j += 1
+        return global_sum
