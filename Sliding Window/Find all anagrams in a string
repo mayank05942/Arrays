@@ -1,0 +1,51 @@
+Prob: https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+Sol:
+
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        
+        def map(lis):
+            d ={}
+            for items in lis:
+                if items not in d:
+                    d[items] = 0
+                d[items] += 1
+            return d
+        
+        
+        i = 0
+        j = 0
+        k = len(p)
+        check = map(p)
+        count = len(check)
+        lis = []
+        res =[]
+        while j < len(s):
+            #print(check)
+            if s[j] in check:
+                check[s[j]] -= 1
+                if check[s[j]] == 0: # means one char is completly used
+                    count -= 1
+                
+            if (j-i+1) < k:
+                j += 1
+            
+            elif (j-i+1) == k:
+                if count == 0: # mean all char are found
+                    res.append(i)
+                
+                # now we have to slide the window hence remove first element s[i]
+                if s[i] in check:
+                    check[s[i]] += 1
+                    
+                    if check[s[i]] == 1:
+                        count += 1
+                    
+                j += 1 
+                i += 1
+        return res
+        
+                
+                
+        
