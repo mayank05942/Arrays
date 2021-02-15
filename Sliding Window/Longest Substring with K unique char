@@ -1,0 +1,46 @@
+
+Prob: https://practice.geeksforgeeks.org/problems/longest-k-unique-characters-substring/0#
+
+
+
+#code
+
+
+T = int(input())
+
+
+for _ in range(T):
+    a = input()
+    k = int(input())
+    j = 0
+    i = 0
+    local_max = 0
+    global_max = 0
+    d ={}
+    while j < len(a):
+        if a[j] not in d:
+            d[a[j]] = 0
+        d[a[j]] += 1
+        
+        
+        if len(d) < k:
+            j += 1
+        
+        elif len(d) == k:
+            local_max = (j-i+1)
+            global_max = max(local_max,global_max)
+            j += 1
+        
+        elif len(d) > k:
+            while len(d) > k:
+                d[a[i]] -= 1
+                if d[a[i]] == 0:
+                   #d = {k: v for k, v in d.items() if v}
+                   del d[a[i]]
+                i += 1
+            j += 1
+            
+    if global_max == 0:
+        print(-1)
+    else:
+        print(global_max)
