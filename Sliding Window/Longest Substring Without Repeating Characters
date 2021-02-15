@@ -1,0 +1,29 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if not s:
+            return 0
+        i,j =0,0
+        d ={}
+        local_max = 0
+        global_max = 0
+        
+        while j < len(s):
+            
+            if s[j] not in d:
+                d[s[j]] = 0
+            d[s[j]] += 1
+            #print(d)
+            if len(d) == (j-i+1): # if length of map == length of window then all char are unique
+                local_max = (j-i+1)
+                global_max = max(local_max,global_max)
+                j += 1
+            
+            elif len(d) < (j-i+1): # means there are  repeating char
+                while len(d) < (j-i+1):
+                    d[s[i]] -= 1
+                    if d[s[i]] == 0:
+                        del d[s[i]]
+                    i += 1
+                j += 1
+        
+        return global_max
