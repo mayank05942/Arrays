@@ -1,0 +1,41 @@
+Prob:https://leetcode.com/problems/minimum-size-subarray-sum/
+
+Type: Variable sliding window
+
+
+
+
+
+Code:
+
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        import sys
+        i = 0
+        j = 0
+        add = 0
+        local_min = sys.maxsize
+        global_min = sys.maxsize
+        lis = []
+        while j < len(nums):
+            add += nums[j]
+            
+            if add < target:
+                 j += 1
+            
+            elif add >= target:
+                while add >= target:
+                    local_min = (j-i+1)
+                    global_min = min(global_min,local_min)
+                    add -= nums[i]
+                    i += 1
+                j += 1
+                
+                
+                
+            
+            
+        if global_min == sys.maxsize:
+            return 0
+        else:
+            return global_min
